@@ -19,7 +19,7 @@ under-the-hood.
 ### Single query fetch
 ```javascript
 // pages/SomePage.vue
-const graphQlString = `{
+const graphQlString = `homePage {
   id
   title
 }`
@@ -29,11 +29,10 @@ export default {
 
   async asyncData({ $cms }) {
     const response = await $cms.fetch([{
-      type: 'page',
       query: graphQlString,
     }])
 
-    return response.data
+    return response.data.homePage
   },
 }
 ```
@@ -42,27 +41,26 @@ The above would equate to making the following GraphQL request to Dato
 
 ```javascript
 `query {
-  page {
+  homePage {
     id
     title
   }
 }
 ```
 
-It is recommended that you destructor your responses too for code hygiene.
+It is recommended that you destructor your responses for code hygiene.
 
 ```javascript
 //...
 export default {
   // ...
   async asyncData({ $cms }) {
-    const { data: page } = await $cms.fetch([{
-      type: 'page',
+    const { data: homePage } = await $cms.fetch([{
       query: graphQlString,
     }])
 
     return {
-      page
+      homePage
     }
   },
 }
@@ -75,62 +73,67 @@ With the power of Dato's usage of GraphQL, we can do just that...
 
 ```javascript
 // pages/SomePage.vue
-const somePageQuery = `{
+const homePageQuery = `homePage {
   id
   title
 }`
 
-const someSettingQuery = `{
-  settingName
-  settingValue
+const globalThemeQuery = `globalTheme {
+  themeName
+  themeColour
 }`
 
 export default {
   name: 'SomePage',
 
-  async asyncData({ $cms }) {
-    const { data: page, settings } = await $cms.fetch([
+  async asyncData({ $cms, store }) {
+    const { data: page, globalTheme } = await $cms.fetch([
       {
-        type: 'page',
-        query: somePageQuery,
+        query: homePageQuery,
       },
       {
-        type: 'settings',
-        query: someSettingQuery,
+        query: globalThemeQuery,
       },
     ])
 
+    store.dispatch('theme/setTheme', globalTheme)
+
     return {
       page,
-      settings
     }
   },
 }
 ```
 
-Notice we pass queries via an array of query objects.
+Notice we pass queries via an array of query objects. The above example outlines how you might compound your different
+types of data fetching into one request.
 
 ### Adding arguments
 
 ```javascript
-const someQuery = `{
-  settingName
-  settingValue
+const pagesQuery = `allPages (first: $first) {
+  id
+  title
 }`
 
-const { data: settings } = await $cms.fetch([{
-  type: 'settings',
-  args: 'first: 10',
-  query: someQuery
+const { data: allPages } = await $cms.fetch([{
+  query: pagesQuery
+  args: [
+    {
+      key: 'first', // Creates the $first variable/argument
+      type: 'IntType = 10', // Defines the type, and/or default value / required bang e.g IntType!
+      value: 5, // The value used in the argument
+    },
+  ],
 }])
 ```
 
 This would result in a query like this...
 ```javascript
-`query {
-  settings(first: 10) {
-    settingName
-    settingValue
+`query ($first: IntType = 10) {
+  allPages (first: 5) {
+    id
+    title
   }
 }`
 ```

@@ -1,9 +1,9 @@
-import axios from 'axios'
+import { GraphQLClient } from 'graphql-request'
 import { subscribeToQuery } from 'datocms-listen'
-import { buildGraphQLString } from '~nuxtDatoCms/helpers'
+import { buildQuery } from '~nuxtDatoCms/helpers'
 
 const buildCmsClient = ({ apiUrl, apiToken, enableRealtime, enableTranslations }, locale) => {
-  const http = axios.create({
+  const client = new GraphQLClient(apiUrl, {
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${apiToken}`,
@@ -11,18 +11,9 @@ const buildCmsClient = ({ apiUrl, apiToken, enableRealtime, enableTranslations }
     },
   })
 
-  const makeFetch = async (query) => {
+  const makeFetch = async (query, variables = {}) => {
     try {
-      const { data: { errors, data } } = await http.post(apiUrl, {
-        query,
-      })
-
-      if (errors && errors.length > 0) {
-        const errorsString = JSON.stringify(errors)
-        throw new Error(`DatoCMS Error: ${errorsString}`)
-      }
-
-      return data
+      return await client.request(query, variables)
     } catch (error) {
       throw new Error(error)
     }
@@ -30,17 +21,20 @@ const buildCmsClient = ({ apiUrl, apiToken, enableRealtime, enableTranslations }
 
   return {
     fetch: async (queries) => {
-      const graphQL = buildGraphQLString(queries, { enableTranslations, locale })
-      const fetchData = await makeFetch(graphQL)
+      const { query, variables } = buildQuery(queries, { enableTranslations, locale })
+      const fetchData = await makeFetch(query, variables)
       return {
-        query: graphQL,
         data: fetchData,
+        cmsReq: {
+          query,
+          variables,
+        },
       }
     },
-    raw: async (query) => {
-      return await makeFetch(query)
+    fetchRaw: async (query, variables = {}) => {
+      return await makeFetch(query, variables)
     },
-    listen: async (query, updateCallback) => {
+    listen: async ({ query, variables }, updateCallback) => {
       if (!enableRealtime) {
         console.warn('DatoCMS Error: Real-time update isn\'t enabled on this environment')
         return
@@ -49,6 +43,7 @@ const buildCmsClient = ({ apiUrl, apiToken, enableRealtime, enableTranslations }
       try {
         return await subscribeToQuery({
           query,
+          variables,
           token: apiToken,
           preview: true,
           onUpdate: (updatedResponse) => {
