@@ -1,25 +1,59 @@
 {
   "name": "@ajshortt/nuxt-datocms",
-  "version": "1.0.0",
-  "description": "NuxtJS plugin that creates a clean and elegant way to fetch data from DatoCMS.",
-  "main": "module.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ajshortt/nuxt-datocms.git"
-  },
+  "version": "0.0.1",
+  "description": "Nuxt.js module which generates a plugin which creates a clean and elegant way to fetch data from DatoCMS.",
   "keywords": [
-    "DatoCMS",
-    "NuxtJS",
-    "Plugin",
-    "Module"
+    "nuxt",
+    "module",
+    "plugins",
+    "DatoCMS"
   ],
-  "author": "@ajshortt",
+  "repository": "ajshortt/nuxt-datocms",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ajshortt/nuxt-datocms/issues"
+  "contributors": [
+    {
+      "name": "ajshortt <hello@alex-shortt.com>"
+    }
+  ],
+  "sideEffects": false,
+  "main": "dist/module.js",
+  "types": "dist/module.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "siroc build  && mkdist --src src/runtime --dist dist/runtime",
+    "dev": "nuxt-ts example",
+    "lint": "eslint --ext .js,.ts,.vue .",
+    "release": "yarn build && yarn test && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint && jest"
   },
-  "homepage": "https://github.com/ajshortt/nuxt-datocms#readme"
+  "dependencies": {
+    "datocms-listen": "^0.1.7",
+    "graphql": "^16.2.0",
+    "graphql-request": "^3.7.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.16.0",
+    "@babel/plugin-transform-runtime": "latest",
+    "@babel/preset-env": "latest",
+    "@babel/preset-typescript": "latest",
+    "@nuxt/test-utils": "latest",
+    "@nuxt/types": "latest",
+    "@nuxt/typescript-build": "latest",
+    "@nuxt/typescript-runtime": "latest",
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@siroc/jest-preset": "latest",
+    "@types/jest": "latest",
+    "babel-eslint": "latest",
+    "babel-jest": "latest",
+    "eslint": "latest",
+    "jest": "latest",
+    "nuxt-edge": "latest",
+    "siroc": "latest",
+    "standard-version": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

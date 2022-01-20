@@ -10,6 +10,7 @@ export default function ({ store }, inject) {
     defaultLocale: 'en',
     l10nModule: 'i18n',
     l10nProperty: 'locale',
+    queries: null,
   }
 
   const moduleOptions = {
@@ -19,7 +20,7 @@ export default function ({ store }, inject) {
 
   if (!moduleOptions.datoToken) { throw new Error('[nuxt-datocms] property datoToken is required') }
 
-  const locale = store.state[moduleOptions.l10nModule] && store.state[moduleOptions.l10nModule][moduleOptions.l10nProperty]
+  const locale = store && store.state && store.state[moduleOptions.l10nModule] && store.state[moduleOptions.l10nModule][moduleOptions.l10nProperty]
     ? store.state[moduleOptions.l10nModule][moduleOptions.l10nProperty]
     : moduleOptions.defaultLocale
 
@@ -27,6 +28,7 @@ export default function ({ store }, inject) {
     apiUrl: moduleOptions.datoApiUrl,
     apiToken: moduleOptions.datoToken,
     enableRealtime: moduleOptions.datoEnableRealtime,
-    enableTranslations: moduleOptions.enableTranslations
+    enableTranslations: moduleOptions.enableTranslations,
+    queries: moduleOptions.queries
   }, locale))
 }

@@ -1,8 +1,12 @@
 # Nuxt DatoCMS Plugin
 
-NuxtJS plugin that creates a clean and elegant way to fetch data from DatoCMS.
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![License][license-src]][license-href]
 
-## Contents
+> NuxtJS plugin that creates a clean and elegant way to fetch data from DatoCMS.
+
+[📖 **Release Notes**](./CHANGELOG.md)
 
 ## Setup
 
@@ -63,18 +67,38 @@ await this.$cms.raw(`query {
   }
 }`);
 ```
-
 ## Documentation
-For all configuration, further setup and usage information, please read the [Plugin Docs](https://https://github.com/ajshortt/nuxt-datocms/docs/index.md).
+
+For all configuration, further setup and usage information, please do the following
+
+Move to the `docs` directory:
+
+```bash
+cd docs
+```
+
+Install dependencies and start the project in development mode:
+
+```bash
+yarn && yarn dev
+```
 
 ## Development
 
-1. Creat a fork of this repository and clone it into a local `modules` directory
+1. Clone this repository
 2. Install dependencies using `yarn install` or `npm install`
-3. Start development.
-4. Create pull request from forked repo into the original repo
-5. Raise a github issue with a description of your changes and a link to the PR
+3. Start development server using `npm run dev`
 
 ## License
 
 [MIT License](./LICENSE)
+
+Copyright (c) Alex Shortt <hello@alex-shortt.com>
+
+<!-- Badges -->
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-adyen-module/latest.svg
+[npm-version-href]: https://npmjs.com/package/nuxt-adyen-module
+[npm-downloads-src]: https://img.shields.io/npm/dt/nuxt-adyen-module.svg
+[npm-downloads-href]: https://npmjs.com/package/nuxt-adyen-module
+[license-src]: https://img.shields.io/npm/l/nuxt-adyen-module.svg
+[license-href]: https://npmjs.com/package/nuxt-adyen-module

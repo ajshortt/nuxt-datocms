@@ -1,0 +1,7 @@
+node_modules
+dist
+example/.env
+example/.nuxt
+example/node_modules
+docs/.nuxt
+docs/node_modules
