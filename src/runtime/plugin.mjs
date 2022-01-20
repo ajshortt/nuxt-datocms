@@ -1,4 +1,4 @@
-import buildCmsClient from '~nuxtDatoCms/nuxt-datocms.js'
+import buildCmsClient from '~nuxt-datocms/nuxt-datocms.js'
 
 const config = <%= JSON.stringify(options, null, 2) %>
 
