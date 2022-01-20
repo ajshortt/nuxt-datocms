@@ -1,6 +1,6 @@
 {
   "name": "@ajshortt/nuxt-datocms",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Nuxt.js module which generates a plugin which creates a clean and elegant way to fetch data from DatoCMS.",
   "keywords": [
     "nuxt",
