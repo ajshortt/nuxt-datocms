@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ page }}
+    <!-- {{ page }} -->
   </div>
 </template>
 
@@ -16,15 +16,12 @@ export default {
   name: 'RawFetchExample',
 
   async asyncData({ $cms }) {
-    const { page } = await $cms.records.fetchRaw(rawQuery,
-      {
-        pageId: 95637160,
-        locale: 'en'
+    const data = await $cms.records.fetchRaw(`query {
+      _site {
+        locales
       }
-    )
-    return {
-      page
-    }
+    }`)
+    console.log(data)
   },
 }
 </script>

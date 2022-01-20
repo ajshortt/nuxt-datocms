@@ -10,19 +10,10 @@
 
 ## Setup
 
-1. Add `nuxt-datocms` dependency to your project
-
-~~Add install dependency via Yarn/NPM~~ COMING SOON
+1. Add `@ajshortt/nuxt-datocms` dependency to your project
 
 ```bash
-# Navigate to modules directory of Nuxt project
-cd modules
-
-# If modules doesn't exist, create it
-mkdir modules && cd modules
-
-# Clone this repo to modules directory
-git clone https://github.com/ajshortt/nuxt-datocms.git
+yarn add @ajshortt/nuxt-datocms # or npm install @ajshortt/nuxt-datocms
 ```
 
 2. Add `nuxt-datocms` to the `modules` section of `nuxt.config.js`
@@ -34,7 +25,7 @@ git clone https://github.com/ajshortt/nuxt-datocms.git
     // Simple usage
     ['nuxt-datocms', {
       options: {
-        datoToken: 'xyz' // Add Dato API token
+        datoToken: <DATO-API-TOKEN> // Add Dato API token
       }
     }]
   ]
@@ -50,22 +41,25 @@ Or a separate section `nuxt-datocms` for module options:
     // Simple usage
     'nuxt-datocms',
   ],
-  nuxtDatoCms: {
+  'nuxt-datocms': {
     options: {
-      datoToken: 'xyz' // Add Dato API token
+      datoToken: <DATO-API-TOKEN> // Add Dato API token
     }
   }
 }
 ```
 
-3. Test fetching data from DatoCMS
+3. Test fetching data from DatoCMS within a page's `asyncData` lifecycle method.
 
 ```js
-await this.$cms.raw(`query {
-  _site {
-    locales
-  }
-}`);
+async asyncData({ $cms }) {
+  const data = await $cms.records.fetchRaw(`query {
+    _site {
+      locales
+    }
+  }`)
+  console.log(data)
+}
 ```
 ## Documentation
 
@@ -96,9 +90,9 @@ yarn && yarn dev
 Copyright (c) Alex Shortt <hello@alex-shortt.com>
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-adyen-module/latest.svg
-[npm-version-href]: https://npmjs.com/package/nuxt-adyen-module
-[npm-downloads-src]: https://img.shields.io/npm/dt/nuxt-adyen-module.svg
-[npm-downloads-href]: https://npmjs.com/package/nuxt-adyen-module
-[license-src]: https://img.shields.io/npm/l/nuxt-adyen-module.svg
-[license-href]: https://npmjs.com/package/nuxt-adyen-module
+[npm-version-src]: https://img.shields.io/npm/v/@ajshortt/nuxt-datocms/latest.svg
+[npm-version-href]: https://npmjs.com/package/@ajshortt/nuxt-datocms
+[npm-downloads-src]: https://img.shields.io/npm/dt/@ajshortt/nuxt-datocms.svg
+[npm-downloads-href]: https://npmjs.com/package/@ajshortt/nuxt-datocms
+[license-src]: https://img.shields.io/npm/l/@ajshortt/nuxt-datocms.svg
+[license-href]: https://github.com/ajshortt/nuxt-datocms/blob/main/LICENSE
