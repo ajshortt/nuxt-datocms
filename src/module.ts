@@ -16,7 +16,7 @@ const nuxtModule: Module<ModuleOptions> = function (moduleOptions) {
   this.nuxt.options.build.transpile.push(runtimeDir)
 
   this.addPlugin({
-    src: path.resolve(runtimeDir, 'plugin.mjs'),
+    src: path.resolve(runtimeDir, 'plugin.js'),
     fileName: 'nuxt-datocms.js',
     options,
   })

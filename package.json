@@ -22,7 +22,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "siroc build  && mkdist --src src/runtime --dist dist/runtime",
+    "build": "siroc build  && mkdist --src src/runtime --dist dist/runtime --ext js",
     "dev": "nuxt-ts example",
     "lint": "eslint --ext .js,.ts,.vue .",
     "release": "yarn build && standard-version && git push --follow-tags && npm publish",
